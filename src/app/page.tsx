@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { useState, useMemo } from "react";
+import type { Variants } from "framer-motion";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
@@ -15,22 +15,10 @@ import {
   Mail,
 } from "lucide-react";
 
-/**
- * Drop this component into your Next.js app router as app/page.tsx
- * Tailwind required. Framer Motion & lucide-react for icons/animation.
- *
- * Features
- * - Netflix-style staggered letter intro for brand name "Aakanksh"
- * - Subtitle: "Ready to code" with a blinking caret
- * - Three primary logo buttons linking to Academics & Experience, Projects, Blog
- * - Responsive: desktop nav vs. mobile overlay menu
- * - Mobile sticky contact bar
- * - Clean, accessible color system via Tailwind utility classes
- */
-
 const letters = Array.from("Aakanksh");
 
-const brandVariants = {
+// Typed variants (no spring union issues)
+const brandVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -38,14 +26,15 @@ const brandVariants = {
   },
 };
 
-const letterVariants = {
+const letterVariants: Variants = {
   hidden: { opacity: 0, filter: "blur(8px)", y: 12, scale: 0.98 },
   show: {
     opacity: 1,
     filter: "blur(0px)",
     y: 0,
     scale: 1,
-    transition: { type: "spring", stiffness: 420, damping: 24 },
+    // keep TS happy: use duration/ease instead of spring union type
+    transition: { duration: 0.45, ease: "easeOut" },
   },
 };
 
@@ -73,7 +62,9 @@ export default function PortfolioLanding() {
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6">
           <Link href="/" className="group inline-flex items-center gap-2">
             <div className="h-3.5 w-3.5 rounded-full bg-indigo-500 transition-all group-hover:scale-110" />
-            <span className="text-sm font-medium tracking-wide text-slate-300 group-hover:text-white">Aakanksh</span>
+            <span className="text-sm font-medium tracking-wide text-slate-300 group-hover:text-white">
+              Aakanksh
+            </span>
           </Link>
 
           <nav className="hidden items-center gap-6 md:flex">
@@ -86,12 +77,14 @@ export default function PortfolioLanding() {
                 {label}
               </Link>
             ))}
-            <a
+            <Link
               href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-xl border border-white/15 px-3 py-1.5 text-sm text-white transition hover:bg-white/10"
             >
               Resume
-            </a>
+            </Link>
           </nav>
 
           {/* Mobile menu button */}
@@ -131,12 +124,14 @@ export default function PortfolioLanding() {
                     <Icon className="h-5 w-5" /> {label}
                   </Link>
                 ))}
-                <a
+                <Link
                   href="/resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-lg text-white hover:bg-white/10"
                 >
                   Resume
-                </a>
+                </Link>
               </div>
             </motion.div>
           )}
@@ -236,49 +231,95 @@ export default function PortfolioLanding() {
             <div className="hidden rounded-2xl border border-white/10 bg-white/5 md:block" />
           </div>
         </section>
-      {/* Highlights */}
-      <section className="mx-auto mt-6 max-w-6xl px-4 md:px-6">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <p className="text-sm text-slate-400">Core Focus</p>
-            <p className="mt-2 text-lg font-semibold text-white">AI Engineering • RAG • Agentic Systems</p>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <p className="text-sm text-slate-400">Recent Impact</p>
-            <p className="mt-2 text-lg font-semibold text-white">-40% debugging time • +30% eval speed</p>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-            <p className="text-sm text-slate-400">Currently</p>
-            <p className="mt-2 text-lg font-semibold text-white">Software Dev Intern @ Rightworks</p>
-          </div>
-        </div>
 
-        {/* Tech badges */}
-        <div className="mt-6 flex flex-wrap gap-2">
-          {["Next.js","React","Tailwind","Framer Motion","LangChain","FastAPI","Python","TypeScript","LLaMA 3.2","Chroma","NiceGUI"].map((t)=> (
-            <span key={t} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">{t}</span>
-          ))}
-        </div>
-
-        {/* Contact / CTA band */}
-        <div className="mt-8 flex flex-col justify-between gap-4 rounded-2xl border border-white/10 bg-gradient-to-r from-indigo-600/20 via-fuchsia-500/10 to-cyan-500/10 p-6 md:flex-row md:items-center">
-          <div>
-            <h3 className="text-xl font-semibold text-white">Open to full-time roles & collaborations</h3>
-            <p className="text-sm text-slate-300">Backend/Full‑stack AI • RAG • Data • Platform tooling</p>
+        {/* Highlights + CTA band */}
+        <section className="mx-auto mt-6 max-w-6xl px-0">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p className="text-sm text-slate-400">Core Focus</p>
+              <p className="mt-2 text-lg font-semibold text-white">
+                AI Engineering • RAG • Agentic Systems
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p className="text-sm text-slate-400">Recent Impact</p>
+              <p className="mt-2 text-lg font-semibold text-white">
+                −40% debugging time • +30% eval speed
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p className="text-sm text-slate-400">Currently</p>
+              <p className="mt-2 text-lg font-semibold text-white">
+                Software Dev Intern @ Rightworks
+              </p>
+            </div>
           </div>
-          <div className="flex gap-3">
-            <a href="mailto:aakanksh.s10@gmail.com" className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400">Email Me</a>
-            <a href="/resume.pdf" className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10">Resume</a>
-            <a href="/projects" className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10">See Projects</a>
-          </div>
-        </div>
-      </section>
 
+          {/* Tech badges */}
+          <div className="mt-6 flex flex-wrap gap-2">
+            {[
+              "Next.js",
+              "React",
+              "Tailwind",
+              "Framer Motion",
+              "LangChain",
+              "FastAPI",
+              "Python",
+              "TypeScript",
+              "LLaMA 3.2",
+              "Chroma",
+              "NiceGUI",
+            ].map((t) => (
+              <span
+                key={t}
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200"
+              >
+                {t}
+              </span>
+            ))}
+          </div>
+
+          {/* Contact / CTA band */}
+          <div className="mt-8 flex flex-col justify-between gap-4 rounded-2xl border border-white/10 bg-gradient-to-r from-indigo-600/20 via-fuchsia-500/10 to-cyan-500/10 p-6 md:flex-row md:items-center">
+            <div>
+              <h3 className="text-xl font-semibold text-white">
+                Open to full-time roles & collaborations
+              </h3>
+              <p className="text-sm text-slate-300">
+                Backend/Full-stack AI • RAG • Data • Platform tooling
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <a
+                href="mailto:aakanksh.s10@gmail.com"
+                className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400"
+              >
+                Email Me
+              </a>
+              <Link
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
+              >
+                Resume
+              </Link>
+              <Link
+                href="/projects"
+                className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
+              >
+                See Projects
+              </Link>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer (desktop) */}
       <footer className="mx-auto hidden max-w-6xl items-center justify-between gap-4 px-4 pb-12 md:flex md:px-6">
-        <p className="text-sm text-slate-400">© {new Date().getFullYear()} Aakanksh Singh</p>
+        <p className="text-sm text-slate-400">
+          © {new Date().getFullYear()} Aakanksh Singh
+        </p>
         <div className="flex items-center gap-3">
           <a
             href="https://github.com/Aakanksh94310"
@@ -304,13 +345,25 @@ export default function PortfolioLanding() {
       {/* Mobile sticky contact bar */}
       <div className="fixed inset-x-0 bottom-4 z-40 mx-auto w-[92%] rounded-2xl border border-white/10 bg-slate-900/70 p-2 backdrop-blur md:hidden">
         <div className="flex items-center justify-around">
-          <a aria-label="GitHub" href="https://github.com/Aakanksh94310" className="rounded-lg p-2 hover:bg-white/10">
+          <a
+            aria-label="GitHub"
+            href="https://github.com/Aakanksh94310"
+            className="rounded-lg p-2 hover:bg-white/10"
+          >
             <Github className="h-6 w-6" />
           </a>
-          <a aria-label="LinkedIn" href="https://www.linkedin.com/in/aakanksh-singh/" className="rounded-lg p-2 hover:bg-white/10">
+          <a
+            aria-label="LinkedIn"
+            href="https://www.linkedin.com/in/aakanksh-singh/"
+            className="rounded-lg p-2 hover:bg-white/10"
+          >
             <Linkedin className="h-6 w-6" />
           </a>
-          <a aria-label="Email" href="mailto:aakanksh.s10@gmail.com" className="rounded-lg p-2 hover:bg-white/10">
+          <a
+            aria-label="Email"
+            href="mailto:aakanksh.s10@gmail.com"
+            className="rounded-lg p-2 hover:bg-white/10"
+          >
             <Mail className="h-6 w-6" />
           </a>
         </div>

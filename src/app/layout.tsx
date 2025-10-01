@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Aakanksh | Ready to code",
   description: "Portfolio – Academics, Projects, Blog",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "favicon.ico" }], // no leading slash
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

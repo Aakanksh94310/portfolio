@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { GraduationCap, Briefcase, Building2, MapPin, CalendarDays, ExternalLink } from "lucide-react";
 
 type Edu = {
@@ -31,9 +32,7 @@ const education: Edu[] = [
     degree: "B.Tech in Electronics & Communication Engineering (CGPA 9.2/10)",
     place: "Chennai, India",
     period: "Jun 2023",
-    details: [
-      "Coursework: Problem Solving (C/Python), Networks, Applied ML, Scientific Python",
-    ],
+    details: ["Coursework: Problem Solving (C/Python), Networks, Applied ML, Scientific Python"],
   },
 ];
 
@@ -87,17 +86,21 @@ export default function AcademicsAndExperiencePage() {
     <main className="mx-auto max-w-6xl px-4 py-10 md:px-6">
       {/* Header band */}
       <section className="rounded-2xl border border-white/10 bg-gradient-to-r from-indigo-600/20 via-fuchsia-500/10 to-cyan-500/10 p-6">
-        <h1 className="text-2xl font-bold tracking-tight text-white md:text-3xl">Academics & Work Experience</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-white md:text-3xl">
+          Academics & Work Experience
+        </h1>
         <p className="mt-2 text-slate-300">
           A quick, visual snapshot of my education and roles—built for skimmability and clarity.
         </p>
         <div className="mt-4 flex flex-wrap gap-3">
-          <a
+          <Link
             href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400 inline-flex items-center gap-2"
           >
             <ExternalLink className="h-4 w-4" /> Download Resume
-          </a>
+          </Link>
           <a
             href="mailto:aakanksh.s10@gmail.com"
             className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
@@ -189,13 +192,29 @@ export default function AcademicsAndExperiencePage() {
       {/* Snapshot badges */}
       <section className="mt-8">
         <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-300">Focus & Tools</h3>
+          <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-300">
+            Focus & Tools
+          </h3>
           <div className="mt-3 flex flex-wrap gap-2">
             {[
-              "Spark AI", "LangChain", "Agentic AI", "RAG", "Next.js", "React", "Tailwind",
-              "Python", "FastAPI", "TypeScript", "TensorFlow", "PyTorch", "NiceGUI",
+              "Spark AI",
+              "LangChain",
+              "Agentic AI",
+              "RAG",
+              "Next.js",
+              "React",
+              "Tailwind",
+              "Python",
+              "FastAPI",
+              "TypeScript",
+              "TensorFlow",
+              "PyTorch",
+              "NiceGUI",
             ].map((t) => (
-              <span key={t} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">
+              <span
+                key={t}
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200"
+              >
                 {t}
               </span>
             ))}

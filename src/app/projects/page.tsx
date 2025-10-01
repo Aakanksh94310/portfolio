@@ -60,10 +60,10 @@ const PROJECTS: Project[] = [
     summary:
       "Generates boilerplate and structured code from documentation using RAG + embeddings pipeline. Integrates LangChain, vector DB, and local LLMs.",
     outcome:
-      "Boosted dev productivity by auto‑creating scaffolds, cutting setup time by 30–40%.",
+      "Boosted dev productivity by auto-creating scaffolds, cutting setup time by 30–40%.",
     stack: ["LangChain", "Python", "Vector DB", "Embeddings", "LLMs"],
     links: {
-      github: "https://github.com/Aakanksh94310", // update if repo exists separately
+      github: "https://github.com/Aakanksh94310",
     },
     tags: ["AI", "Tools", "RAG"],
   },
@@ -92,17 +92,19 @@ export default function ProjectsPage() {
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-white md:text-3xl">Projects</h1>
-            <p className="mt-1 text-slate-300">Selected work in AI, analytics, visualization, and engineering tools.</p>
+            <p className="mt-1 text-slate-300">
+              Selected work in AI, analytics, visualization, and engineering tools.
+            </p>
           </div>
           <div className="flex gap-3">
-            <a
+            <Link
               href="/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400"
             >
               <Sparkles className="h-4 w-4" /> Resume
-            </a>
+            </Link>
             <a
               href="mailto:aakanksh.s10@gmail.com"
               className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
@@ -127,7 +129,9 @@ export default function ProjectsPage() {
                   : "border-white/10 bg-white/5 text-slate-200 hover:bg-white/10"
               }`}
             >
-              <span className="inline-flex items-center gap-1"><Tag className="h-3.5 w-3.5" /> {tag}</span>
+              <span className="inline-flex items-center gap-1">
+                <Tag className="h-3.5 w-3.5" /> {tag}
+              </span>
             </button>
           ))}
           {activeTags.length > 0 && (
@@ -144,23 +148,34 @@ export default function ProjectsPage() {
       {/* Grid */}
       <section className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
         {filtered.map((p) => (
-          <article key={p.slug} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:bg-white/10">
+          <article
+            key={p.slug}
+            className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:bg-white/10"
+          >
+            {/* soft glow */}
             <div className="pointer-events-none absolute -right-10 -top-12 h-40 w-40 rounded-full bg-indigo-500/20 blur-3xl transition group-hover:scale-110" />
 
             <h2 className="text-xl font-semibold text-white">{p.title}</h2>
             <p className="mt-2 text-sm text-slate-300">{p.summary}</p>
             {p.outcome && (
-              <p className="mt-2 text-sm text-slate-200"><span className="font-medium">Impact:</span> {p.outcome}</p>
+              <p className="mt-2 text-sm text-slate-200">
+                <span className="font-medium">Impact:</span> {p.outcome}
+              </p>
             )}
 
+            {/* stack pills */}
             <div className="mt-3 flex flex-wrap gap-2">
               {p.stack.map((s) => (
-                <span key={s} className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">
+                <span
+                  key={s}
+                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200"
+                >
                   {s}
                 </span>
               ))}
             </div>
 
+            {/* links */}
             <div className="mt-4 flex flex-wrap gap-3">
               {p.links.github && (
                 <a
@@ -189,7 +204,7 @@ export default function ProjectsPage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white hover:bg-white/10"
                 >
-                  <ChevronRight className="h-4 w-4" /> Write‑up
+                  <ChevronRight className="h-4 w-4" /> Write-up
                 </a>
               )}
             </div>
@@ -202,11 +217,25 @@ export default function ProjectsPage() {
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
           <div>
             <h3 className="text-xl font-semibold text-white">Want a deeper dive or a quick demo?</h3>
-            <p className="text-sm text-slate-300">Happy to walk through architecture, trade‑offs, and roadmap.</p>
+            <p className="text-sm text-slate-300">
+              Happy to walk through architecture, trade-offs, and roadmap.
+            </p>
           </div>
           <div className="flex gap-3">
-            <a href="mailto:aakanksh.s10@gmail.com" className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400">Email Me</a>
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10">Resume</a>
+            <a
+              href="mailto:aakanksh.s10@gmail.com"
+              className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400"
+            >
+              Email Me
+            </a>
+            <Link
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
+            >
+              Resume
+            </Link>
           </div>
         </div>
       </section>
