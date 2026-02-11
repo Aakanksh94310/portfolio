@@ -20,9 +20,9 @@ type Role = {
 const education: Edu[] = [
   {
     school: "Syracuse University – College of Engineering & Computer Science",
-    degree: "M.S. in Computer Science (CGPA 3.63/4.0)",
+    degree: "M.S. in Computer Science (CGPA 3.71/4.0)",
     place: "Syracuse, NY",
-    period: "Expected: Dec 2025",
+    period: "Dec 2025",
     details: [
       "Key Coursework: DSA, Systems & Network Programming, Formal Methods, DBMS, Algorithms, Computer Architecture, NLP",
     ],
@@ -41,7 +41,7 @@ const experience: Role[] = [
     title: "Software Developer Intern",
     company: "Rightworks LLC",
     place: "Remote, USA",
-    period: "Sep 2025 – Present",
+    period: "Sep 2025 – December 2025",
     bullets: [
       "Hands-on AI development with Spark AI for accounting workflows.",
       "Scalable AI pipelines for data transformation, quality evaluation, and automation.",
