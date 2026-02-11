@@ -14,8 +14,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-slate-950 text-slate-100">
+    <html lang="en" className="bg-slate-950">
+      <body
+        className="
+          min-h-screen
+          bg-slate-950
+          text-slate-100
+          antialiased
+          pb-[calc(96px+env(safe-area-inset-bottom))]
+          md:pb-0
+        "
+      >
         {/* Global Back button */}
         <div className="mx-auto max-w-6xl px-4 pt-4 md:px-6">
           <BackButton />
