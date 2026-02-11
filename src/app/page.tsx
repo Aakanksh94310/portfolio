@@ -51,7 +51,7 @@ export default function PortfolioLanding() {
   );
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased">
+    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased pb-24 md:pb-0">
       {/* Top gradient glow */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="mx-auto h-[60vh] w-[120vw] max-w-none -translate-y-1/3 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-700/20 via-fuchsia-500/10 to-transparent blur-3xl" />
@@ -328,10 +328,13 @@ export default function PortfolioLanding() {
             <Github className="h-4 w-4" /> GitHub
           </a>
           <a
-            href="https://www.linkedin.com/in/aakanksh-singh/"
-            className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm hover:bg-white/10"
+            aria-label="LinkedIn"
+            href="https://www.linkedin.com/in/aakankshsingh133/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg p-2 hover:bg-white/10 pointer-events-auto"
           >
-            <Linkedin className="h-4 w-4" /> LinkedIn
+            <Linkedin className="h-6 w-6" />
           </a>
           <a
             href="mailto:aakanksh.s10@gmail.com"
@@ -343,8 +346,9 @@ export default function PortfolioLanding() {
       </footer>
 
       {/* Mobile sticky contact bar */}
-      <div className="fixed inset-x-0 bottom-4 z-40 mx-auto w-[92%] rounded-2xl border border-white/10 bg-slate-900/70 p-2 backdrop-blur md:hidden">
-        <div className="flex items-center justify-around">
+      <div className="fixed inset-x-0 bottom-4 z-40 mx-auto w-[92%] md:hidden">
+        <div className="rounded-2xl border border-white/10 bg-slate-900/70 p-2 backdrop-blur pointer-events-none">
+          <div className="flex items-center justify-around pointer-events-auto">
           <a
             aria-label="GitHub"
             href="https://github.com/Aakanksh94310"
@@ -354,7 +358,9 @@ export default function PortfolioLanding() {
           </a>
           <a
             aria-label="LinkedIn"
-            href="https://www.linkedin.com/in/aakanksh-singh/"
+            href="https://www.linkedin.com/in/aakankshsingh133/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="rounded-lg p-2 hover:bg-white/10"
           >
             <Linkedin className="h-6 w-6" />
@@ -366,6 +372,7 @@ export default function PortfolioLanding() {
           >
             <Mail className="h-6 w-6" />
           </a>
+          </div>
         </div>
       </div>
     </div>
