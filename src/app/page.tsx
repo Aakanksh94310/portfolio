@@ -1,417 +1,321 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import type { Variants } from "framer-motion";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu,
   X,
   GraduationCap,
-  Code,
-  BookOpenText,
+  Code2,
+  BookOpen,
   Github,
   Linkedin,
   Mail,
+  ArrowUpRight,
+  Sparkles,
+  Terminal,
+  Cpu,
+  Layers,
+  ChevronRight
 } from "lucide-react";
 
-const letters = Array.from("Aakanksh");
+export default function Home() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-// Typed variants (no spring union issues)
-const brandVariants: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.25 },
-  },
-};
-
-const letterVariants: Variants = {
-  hidden: { opacity: 0, filter: "blur(8px)", y: 12, scale: 0.98 },
-  show: {
-    opacity: 1,
-    filter: "blur(0px)",
-    y: 0,
-    scale: 1,
-    // keep TS happy: use duration/ease instead of spring union type
-    transition: { duration: 0.45, ease: "easeOut" },
-  },
-};
-
-export default function PortfolioLanding() {
-  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   // Lock background scroll when mobile menu is open
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
-  }, [open]);
+  }, [isMobileMenuOpen]);
 
-  const navItems = useMemo(
-    () => [
-      { href: "/academics", label: "Academics & Experience", icon: GraduationCap },
-      { href: "/projects", label: "Projects", icon: Code },
-      { href: "/blog", label: "Blog", icon: BookOpenText },
-    ],
-    []
-  );
+  const navItems = [
+    { href: "/projects", label: "Projects" },
+    { href: "/academics", label: "Experience" },
+    { href: "/blog", label: "Blog" },
+  ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 antialiased pb-24 md:pb-0">
-      {/* ====== PAGE CONTENT (blur + disable clicks when menu is open) ====== */}
-      <div
-        className={[
-          "transition duration-200",
-          open ? "blur-md brightness-75 pointer-events-none select-none" : "",
-        ].join(" ")}
-      >
-        {/* Top gradient glow */}
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="mx-auto h-[60vh] w-[120vw] max-w-none -translate-y-1/3 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-700/20 via-fuchsia-500/10 to-transparent blur-3xl" />
-        </div>
+    <div className="relative min-h-screen bg-[#030712] text-slate-50 selection:bg-cyan-500/30 font-sans overflow-hidden">
+      
+      {/* Background Animated Orbs */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-cyan-600/20 blur-[120px] animate-float mix-blend-screen" />
+        <div className="absolute top-[20%] right-[-10%] w-[35vw] h-[35vw] rounded-full bg-fuchsia-600/20 blur-[120px] animate-float-delayed mix-blend-screen" />
+        <div className="absolute bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-blue-600/10 blur-[150px] animate-float mix-blend-screen" />
+      </div>
 
-        {/* Header */}
-        <header className="sticky top-0 z-40 w-full backdrop-blur supports-[backdrop-filter]:bg-slate-950/60">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6">
-            <Link href="/" className="group inline-flex items-center gap-2">
-              <div className="h-3.5 w-3.5 rounded-full bg-indigo-500 transition-all group-hover:scale-110" />
-              <span className="text-sm font-medium tracking-wide text-slate-300 group-hover:text-white">
-                Aakanksh
-              </span>
+      {/* Dynamic Cursor Light (Desktop Only) */}
+      <div 
+        className="pointer-events-none fixed inset-0 z-0 hidden md:block transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255,0.06), transparent 40%)`
+        }}
+      />
+
+      <div className={["relative z-10 transition-all duration-500", isMobileMenuOpen ? "blur-md opacity-40 pointer-events-none" : ""].join(" ")}>
+        
+        {/* Navigation */}
+        <header className="fixed top-0 inset-x-0 z-50 border-b border-white/5 bg-[#030712]/50 backdrop-blur-xl supports-[backdrop-filter]:bg-[#030712]/20">
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+            <Link href="/" className="group flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 shadow-[0_0_15px_rgba(34,211,238,0.4)] transition-transform group-hover:scale-105">
+                <Terminal className="h-4 w-4 text-white" />
+              </div>
+              <span className="text-base font-bold tracking-wide text-white">AAKANKSH</span>
             </Link>
 
-            <nav className="hidden items-center gap-6 md:flex">
-              {navItems.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className="text-sm text-slate-300 transition-colors hover:text-white"
-                >
-                  {label}
+            <nav className="hidden md:flex items-center gap-8">
+              {navItems.map((item) => (
+                <Link key={item.href} href={item.href} className="text-sm font-medium text-slate-300 transition-colors hover:text-cyan-400">
+                  {item.label}
                 </Link>
               ))}
+              <div className="h-4 w-px bg-white/10" />
               <Link
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-xl border border-white/15 px-3 py-1.5 text-sm text-white transition hover:bg-white/10"
+                href="/contact"
+                className="group relative inline-flex items-center gap-2 rounded-full bg-white/5 px-5 py-2 text-sm font-medium text-white ring-1 ring-inset ring-white/10 transition-all hover:bg-white/10 hover:ring-white/20"
               >
-                Resume
+                Let's Talk
+                <ArrowUpRight className="h-4 w-4 opacity-70 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
             </nav>
 
-            {/* Mobile menu button */}
             <button
-              aria-label="Open menu"
-              className="inline-flex items-center justify-center rounded-lg p-2 text-slate-200 hover:bg-white/10 md:hidden"
-              onClick={() => setOpen(true)}
+              className="md:hidden p-2 text-slate-300 hover:text-white"
+              onClick={() => setIsMobileMenuOpen(true)}
             >
               <Menu className="h-6 w-6" />
             </button>
           </div>
         </header>
 
-        {/* Hero */}
-        <main className="mx-auto max-w-6xl px-4 pb-24 pt-12 md:px-6 md:pt-20">
-          <section className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
-            {/* Left: Brand + subtitle + CTAs */}
-            <div>
-              {/* Netflix-ish staggered brand */}
-              <motion.h1
-                variants={brandVariants}
-                initial="hidden"
-                animate="show"
-                className="mb-3 flex flex-wrap text-5xl font-extrabold tracking-tight md:text-7xl"
-              >
-                {letters.map((char, i) => (
-                  <motion.span
-                    key={i}
-                    variants={letterVariants}
-                    className="mr-[1px] inline-block bg-gradient-to-b from-white to-slate-300 bg-clip-text text-transparent drop-shadow-[0_8px_24px_rgba(99,102,241,0.25)]"
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-              </motion.h1>
+        <main className="mx-auto max-w-7xl px-6 pt-32 pb-24 lg:px-8 lg:pt-40">
+          
+          {/* Hero Section */}
+          <div className="max-w-3xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-medium text-cyan-300 mb-8 backdrop-blur-md"
+            >
+              <Sparkles className="h-3.5 w-3.5" />
+              Available for Full-Time Roles
+            </motion.div>
+            
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+              className="text-5xl font-extrabold tracking-tight text-white sm:text-7xl lg:text-8xl"
+            >
+              Building the <br className="hidden sm:block" />
+              <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-fuchsia-500 bg-clip-text text-transparent">next generation</span> <br className="hidden sm:block" />
+              of software.
+            </motion.h1>
 
-              {/* Subtitle with blinking caret */}
-              <div className="mb-6 flex items-center gap-2 text-lg text-slate-300 md:text-xl">
-                <span>Ready to code</span>
-                <span className="inline-block h-6 w-[2px] animate-pulse rounded bg-slate-400/70" />
-              </div>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+              className="mt-6 max-w-2xl text-lg leading-relaxed text-slate-400 sm:text-xl"
+            >
+              I am a Software Engineer & AI Researcher specializing in scalable backends, Agentic systems, and high-performance applications.
+            </motion.p>
 
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/projects"
-                  className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400"
-                >
-                  View Projects
-                </Link>
-                <Link
-                  href="/contact"
-                  className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
-                >
-                  Contact Me
-                </Link>
-              </div>
-            </div>
-
-            {/* Right: Logo tiles */}
-            <div className="grid grid-cols-2 gap-4 md:gap-6">
-              <Link
-                href="/academics"
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:bg-white/10"
-              >
-                <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-indigo-500/20 blur-2xl transition group-hover:scale-110" />
-                <div className="relative flex h-full flex-col items-start gap-4">
-                  <div className="grid h-12 w-12 place-items-center rounded-full border border-white/15 bg-white/10">
-                    <GraduationCap className="h-6 w-6" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-white">
-                    Academics & Experience
-                  </h3>
-                  <p className="text-sm text-slate-300">
-                    Coursework, internships, impact, timeline.
-                  </p>
-                </div>
-              </Link>
-
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
+              className="mt-10 flex flex-wrap items-center gap-4"
+            >
               <Link
                 href="/projects"
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:bg-white/10"
+                className="group relative flex h-12 items-center justify-center gap-2 overflow-hidden rounded-full bg-white px-8 text-sm font-bold text-slate-950 transition-transform hover:scale-105 active:scale-95"
               >
-                <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-fuchsia-500/20 blur-2xl transition group-hover:scale-110" />
-                <div className="relative flex h-full flex-col items-start gap-4">
-                  <div className="grid h-12 w-12 place-items-center rounded-full border border-white/15 bg-white/10">
-                    <Code className="h-6 w-6" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-white">Projects</h3>
-                  <p className="text-sm text-slate-300">
-                    RAG, FEA, Android, dashboards & more.
-                  </p>
-                </div>
+                View My Work
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </Link>
-
-              <Link
-                href="/blog"
-                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:bg-white/10"
-              >
-                <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-cyan-500/20 blur-2xl transition group-hover:scale-110" />
-                <div className="relative flex h-full flex-col items-start gap-4">
-                  <div className="grid h-12 w-12 place-items-center rounded-full border border-white/15 bg-white/10">
-                    <BookOpenText className="h-6 w-6" />
-                  </div>
-                  <h3 className="text-lg font-semibold text-white">Blog</h3>
-                  <p className="text-sm text-slate-300">
-                    Short notes, deep dives, experiments.
-                  </p>
-                </div>
-              </Link>
-
-              {/* Empty spacer card for balance on md+ */}
-              <div className="hidden rounded-2xl border border-white/10 bg-white/5 md:block" />
-            </div>
-          </section>
-
-          {/* Highlights + CTA band */}
-          <section className="mx-auto mt-6 max-w-6xl px-0">
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-6">
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                <p className="text-sm text-slate-400">Core Focus</p>
-                <p className="mt-2 text-lg font-semibold text-white">
-                  AI Engineering • RAG • Agentic Systems
-                </p>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                <p className="text-sm text-slate-400">Recent Impact</p>
-                <p className="mt-2 text-lg font-semibold text-white">
-                  −40% debugging time • +30% eval speed
-                </p>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                <p className="text-sm text-slate-400">Currently</p>
-                <p className="mt-2 text-lg font-semibold text-white">
-                  Software Dev Intern @ Rightworks
-                </p>
-              </div>
-            </div>
-
-            {/* Tech badges */}
-            <div className="mt-6 flex flex-wrap gap-2">
-              {[
-                "Next.js",
-                "React",
-                "Tailwind",
-                "Framer Motion",
-                "LangChain",
-                "FastAPI",
-                "Python",
-                "TypeScript",
-                "LLaMA 3.2",
-                "Chroma",
-                "NiceGUI",
-              ].map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
-
-            {/* Contact / CTA band */}
-            <div className="mt-8 flex flex-col justify-between gap-4 rounded-2xl border border-white/10 bg-gradient-to-r from-indigo-600/20 via-fuchsia-500/10 to-cyan-500/10 p-6 md:flex-row md:items-center">
-              <div>
-                <h3 className="text-xl font-semibold text-white">
-                  Open to full-time roles & collaborations
-                </h3>
-                <p className="text-sm text-slate-300">
-                  Backend/Full-stack AI • RAG • Data • Platform tooling
-                </p>
-              </div>
-              <div className="flex gap-3">
-                <a
-                  href="mailto:aakanksh.s10@gmail.com"
-                  className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400"
-                >
-                  Email Me
-                </a>
-                <Link
-                  href="/resume.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
-                >
-                  Resume
-                </Link>
-                <Link
-                  href="/projects"
-                  className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
-                >
-                  See Projects
-                </Link>
-              </div>
-            </div>
-          </section>
-        </main>
-
-        {/* Footer (desktop) */}
-        <footer className="mx-auto hidden max-w-6xl items-center justify-between gap-4 px-4 pb-12 md:flex md:px-6">
-          <p className="text-sm text-slate-400">
-            © {new Date().getFullYear()} Aakanksh Singh
-          </p>
-          <div className="flex items-center gap-3">
-            <a
-              href="https://github.com/Aakanksh94310"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm hover:bg-white/10"
-            >
-              <Github className="h-4 w-4" /> GitHub
-            </a>
-            <a
-              aria-label="LinkedIn"
-              href="https://www.linkedin.com/in/aakankshsingh133/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm hover:bg-white/10"
-            >
-              <Linkedin className="h-4 w-4" /> LinkedIn
-            </a>
-            <a
-              href="mailto:aakanksh.s10@gmail.com"
-              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm hover:bg-white/10"
-            >
-              <Mail className="h-4 w-4" /> Email
-            </a>
-          </div>
-        </footer>
-
-        {/* Mobile sticky contact bar (hide when menu is open) */}
-        {!open && (
-          <div className="fixed inset-x-0 bottom-4 z-40 mx-auto w-[92%] md:hidden">
-            <div className="rounded-2xl border border-white/10 bg-slate-900/70 p-2 backdrop-blur pointer-events-none">
-              <div className="flex items-center justify-around pointer-events-auto">
-                <a
-                  aria-label="GitHub"
-                  href="https://github.com/Aakanksh94310"
-                  className="rounded-lg p-2 hover:bg-white/10"
-                >
-                  <Github className="h-6 w-6" />
-                </a>
-                <a
-                  aria-label="LinkedIn"
-                  href="https://www.linkedin.com/in/aakankshsingh133/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-lg p-2 hover:bg-white/10"
-                >
-                  <Linkedin className="h-6 w-6" />
-                </a>
-                <a
-                  aria-label="Email"
-                  href="mailto:aakanksh.s10@gmail.com"
-                  className="rounded-lg p-2 hover:bg-white/10"
-                >
-                  <Mail className="h-6 w-6" />
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* ====== OVERLAY MENU (on top; no backdrop-blur dependency) ====== */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] bg-slate-950/55"
-            onClick={() => setOpen(false)}
-          >
-            <motion.div
-              initial={{ y: 12, opacity: 0, scale: 0.98 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: 12, opacity: 0, scale: 0.98 }}
-              transition={{ duration: 0.2, ease: "easeOut" }}
-              className="mx-auto flex max-w-md flex-col gap-6 px-6 py-8 pointer-events-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                aria-label="Close menu"
-                className="self-end rounded-lg p-2 text-slate-200 hover:bg-white/10"
-                onClick={() => setOpen(false)}
-              >
-                <X className="h-6 w-6" />
-              </button>
-
-              {navItems.map(({ href, label, icon: Icon }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  onClick={() => setOpen(false)}
-                  className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-lg text-white hover:bg-white/10"
-                >
-                  <Icon className="h-5 w-5" /> {label}
-                </Link>
-              ))}
-
               <Link
                 href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => setOpen(false)}
-                className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-lg text-white hover:bg-white/10"
+                className="flex h-12 items-center justify-center rounded-full border border-white/10 bg-white/5 px-8 text-sm font-medium text-white backdrop-blur-md transition-colors hover:bg-white/10 hover:border-white/20"
               >
-                Resume
+                Download Resume
               </Link>
             </motion.div>
+          </div>
+
+          {/* Bento Grid */}
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
+            className="mt-24 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 auto-rows-[200px]"
+          >
+            {/* Box 1: Experience (Spans 2 cols, 1 row) */}
+            <Link href="/academics" className="group relative col-span-1 sm:col-span-2 lg:col-span-2 lg:row-span-1 overflow-hidden rounded-3xl glass-card p-8 flex flex-col justify-between">
+              <div className="absolute top-0 right-0 p-6 opacity-0 transform translate-x-4 -translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0">
+                <ArrowUpRight className="h-6 w-6 text-white" />
+              </div>
+              <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-fuchsia-500/20 to-purple-600/20 border border-fuchsia-500/30 flex items-center justify-center mb-4">
+                <Cpu className="h-6 w-6 text-fuchsia-400" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-1">Experience & Academics</h3>
+                <p className="text-slate-400 text-sm">Rightworks, Ascendion, Syracuse University</p>
+              </div>
+              {/* Background gradient flare */}
+              <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-fuchsia-600/20 rounded-full blur-[40px] group-hover:bg-fuchsia-500/30 transition-colors" />
+            </Link>
+
+            {/* Box 2: Tech Stack */}
+            <div className="col-span-1 sm:col-span-1 lg:col-span-1 lg:row-span-2 overflow-hidden rounded-3xl glass-card p-8 relative">
+              <h3 className="text-lg font-bold text-white mb-6">Core Arsenal</h3>
+              <div className="flex flex-col gap-4 relative z-10">
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">Languages</span>
+                  <span className="text-sm font-medium text-slate-200">Python, TypeScript, C++</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">Backend</span>
+                  <span className="text-sm font-medium text-slate-200">FastAPI, Node.js, PostgreSQL, Redis, Kafka</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">AI / ML</span>
+                  <span className="text-sm font-medium text-slate-200">LangChain, PyTorch, RAG, Chroma</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">Frontend</span>
+                  <span className="text-sm font-medium text-slate-200">React, Next.js, Tailwind</span>
+                </div>
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#030712] via-transparent to-transparent opacity-80" />
+            </div>
+
+            {/* Box 3: Socials */}
+            <div className="col-span-1 sm:col-span-1 lg:col-span-1 lg:row-span-1 overflow-hidden rounded-3xl glass-card p-6 flex flex-col justify-center gap-4">
+              <a href="https://github.com/Aakanksh94310" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-2xl bg-white/5 p-4 border border-white/5 hover:border-white/20 hover:bg-white/10 transition-all">
+                <div className="flex items-center gap-3">
+                  <Github className="h-5 w-5 text-slate-300 group-hover:text-white transition-colors" />
+                  <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">GitHub</span>
+                </div>
+                <ArrowUpRight className="h-4 w-4 text-slate-500 group-hover:text-white transition-colors" />
+              </a>
+              <a href="https://www.linkedin.com/in/aakankshsingh133/" target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between rounded-2xl bg-white/5 p-4 border border-white/5 hover:border-[#0A66C2]/50 hover:bg-[#0A66C2]/10 transition-all">
+                <div className="flex items-center gap-3">
+                  <Linkedin className="h-5 w-5 text-slate-300 group-hover:text-[#0A66C2] transition-colors" />
+                  <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">LinkedIn</span>
+                </div>
+                <ArrowUpRight className="h-4 w-4 text-slate-500 group-hover:text-white transition-colors" />
+              </a>
+            </div>
+
+            {/* Box 4: Blog (Spans 2 cols) */}
+            <Link href="/blog" className="group relative col-span-1 sm:col-span-2 lg:col-span-2 lg:row-span-1 overflow-hidden rounded-3xl glass-card p-8 flex flex-col justify-between">
+              <div className="absolute top-0 right-0 p-6 opacity-0 transform translate-x-4 -translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0">
+                <ArrowUpRight className="h-6 w-6 text-white" />
+              </div>
+              <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-blue-600/20 border border-cyan-500/30 flex items-center justify-center mb-4">
+                <BookOpen className="h-6 w-6 text-cyan-400" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-1">Engineering Blog</h3>
+                <p className="text-slate-400 text-sm">Thoughts on System Design, Performance & AI architecture.</p>
+              </div>
+              <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-cyan-600/20 rounded-full blur-[40px] group-hover:bg-cyan-500/30 transition-colors" />
+            </Link>
+
+            {/* Box 5: Projects */}
+            <Link href="/projects" className="group relative col-span-1 sm:col-span-2 lg:col-span-1 lg:row-span-1 overflow-hidden rounded-3xl glass-card p-8 flex flex-col justify-between bg-gradient-to-br from-blue-900/40 to-indigo-900/40 border border-blue-500/20 hover:border-blue-400/40">
+              <div className="flex justify-between items-start">
+                <div className="h-10 w-10 rounded-xl bg-white/10 flex items-center justify-center backdrop-blur-md">
+                  <Layers className="h-5 w-5 text-white" />
+                </div>
+                <ChevronRight className="h-5 w-5 text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all" />
+              </div>
+              <div className="mt-8">
+                <h3 className="text-xl font-bold text-white">Projects</h3>
+                <p className="text-blue-200 text-sm mt-1">StructRAG, Analytics & More</p>
+              </div>
+            </Link>
+          </motion.div>
+
+        </main>
+
+        {/* Footer */}
+        <footer className="mx-auto max-w-7xl px-6 py-12 border-t border-white/5 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-slate-500">© {new Date().getFullYear()} Aakanksh Singh. Crafted with precision.</p>
+          <div className="flex items-center gap-6">
+            <a href="mailto:aakanksh.s10@gmail.com" className="text-sm font-medium text-slate-400 hover:text-white transition-colors flex items-center gap-2">
+              <Mail className="h-4 w-4" /> aakanksh.s10@gmail.com
+            </a>
+          </div>
+        </footer>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-[#030712]/95 backdrop-blur-xl p-6"
+          >
+            <div className="flex justify-end mb-8">
+              <button
+                className="p-2 text-white bg-white/10 rounded-full hover:bg-white/20"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            <nav className="flex flex-col gap-6 text-center">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-3xl font-bold text-slate-300 hover:text-white transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <Link
+                href="/contact"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-3xl font-bold text-cyan-400 mt-4"
+              >
+                Contact Me
+              </Link>
+              <Link
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-xl font-medium text-slate-400 mt-8 flex items-center justify-center gap-2"
+              >
+                Resume <ArrowUpRight className="h-5 w-5" />
+              </Link>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
+
     </div>
   );
 }

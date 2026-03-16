@@ -2,7 +2,8 @@
 
 import React, { useMemo, useState } from "react";
 import Link from "next/link";
-import { Github, Globe2, ChevronRight, Tag, Filter, Sparkles } from "lucide-react";
+import { Github, Globe2, ChevronRight, Tag, Filter, Sparkles, ExternalLink, Activity } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 type Project = {
   title: string;
@@ -22,7 +23,7 @@ const PROJECTS: Project[] = [
       "RAG-based system that ingests docs, builds a domain KB, and generates code with guardrails. Built with FastAPI, LangChain, local LLMs, and Chroma.",
     outcome:
       "Reduced manual debugging by ~40% and improved model evaluation flows by ~30% with dashboards.",
-    stack: ["FastAPI", "LangChain", "Python", "Chroma", "LLaMA 3.2", "NiceGUI", "TypeScript"],
+    stack: ["FastAPI", "LangChain", "Python", "Chroma", "LLaMA 3.2", "NiceGUI"],
     links: {
       github: "https://github.com/Aakanksh94310/StructRAG",
     },
@@ -86,159 +87,158 @@ export default function ProjectsPage() {
   };
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-10 md:px-6">
-      {/* Header band */}
-      <section className="rounded-2xl border border-white/10 bg-gradient-to-r from-indigo-600/20 via-fuchsia-500/10 to-cyan-500/10 p-6">
-        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h1 className="text-2xl font-bold tracking-tight text-white md:text-3xl">Projects</h1>
-            <p className="mt-1 text-slate-300">
-              Selected work in AI, analytics, visualization, and engineering tools.
-            </p>
+    <main className="relative min-h-screen pt-24 pb-20 px-6 lg:px-8">
+      {/* Abstract Background Glow */}
+      <div className="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-600/10 blur-[150px] pointer-events-none" />
+
+      <div className="mx-auto max-w-7xl relative z-10">
+        
+        {/* Header section */}
+        <motion.section 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-16"
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-300 mb-6 backdrop-blur-md">
+            <Activity className="h-3.5 w-3.5" /> Systems & Applications
           </div>
-          <div className="flex gap-3">
-            <Link
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400"
-            >
-              <Sparkles className="h-4 w-4" /> Resume
-            </Link>
-            <a
-              href="mailto:aakanksh.s10@gmail.com"
-              className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
-            >
-              Contact
-            </a>
-          </div>
-        </div>
-
-        {/* Filter bar */}
-        <div className="mt-5 flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200">
-            <Filter className="h-3.5 w-3.5" /> Filter by tags
-          </span>
-          {ALL_TAGS.map((tag) => (
-            <button
-              key={tag}
-              onClick={() => toggleTag(tag)}
-              className={`rounded-full border px-3 py-1 text-xs transition ${
-                activeTags.includes(tag)
-                  ? "border-indigo-400 bg-indigo-500/20 text-white"
-                  : "border-white/10 bg-white/5 text-slate-200 hover:bg-white/10"
-              }`}
-            >
-              <span className="inline-flex items-center gap-1">
-                <Tag className="h-3.5 w-3.5" /> {tag}
-              </span>
-            </button>
-          ))}
-          {activeTags.length > 0 && (
-            <button
-              onClick={() => setActiveTags([])}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200 hover:bg-white/10"
-            >
-              Clear
-            </button>
-          )}
-        </div>
-      </section>
-
-      {/* Grid */}
-      <section className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-        {filtered.map((p) => (
-          <article
-            key={p.slug}
-            className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:bg-white/10"
-          >
-            {/* soft glow */}
-            <div className="pointer-events-none absolute -right-10 -top-12 h-40 w-40 rounded-full bg-indigo-500/20 blur-3xl transition group-hover:scale-110" />
-
-            <h2 className="text-xl font-semibold text-white">{p.title}</h2>
-            <p className="mt-2 text-sm text-slate-300">{p.summary}</p>
-            {p.outcome && (
-              <p className="mt-2 text-sm text-slate-200">
-                <span className="font-medium">Impact:</span> {p.outcome}
-              </p>
+          <h1 className="text-5xl font-extrabold tracking-tight text-white md:text-6xl lg:text-7xl">
+            Selected <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">Projects</span>
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg text-slate-400">
+            A showcase of high-performance backend systems, AI workflows, and modern web applications built for scale.
+          </p>
+          
+          <div className="mt-12 flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-xs font-bold text-slate-400 uppercase tracking-widest border border-white/10 backdrop-blur-md">
+              <Filter className="h-3.5 w-3.5" /> Filter by tech
+            </div>
+            {ALL_TAGS.map((tag) => (
+              <button
+                key={tag}
+                onClick={() => toggleTag(tag)}
+                className={`rounded-full border px-4 py-2 text-xs font-semibold transition-all backdrop-blur-md ${
+                  activeTags.includes(tag)
+                    ? "border-cyan-400 bg-cyan-400/20 text-cyan-300 shadow-[0_0_15px_rgba(34,211,238,0.2)]"
+                    : "border-white/10 bg-white/5 text-slate-400 hover:border-white/30 hover:text-white"
+                }`}
+              >
+                {tag}
+              </button>
+            ))}
+            {activeTags.length > 0 && (
+              <button
+                onClick={() => setActiveTags([])}
+                className="text-xs font-bold text-slate-500 hover:text-white transition px-2"
+              >
+                Reset
+              </button>
             )}
-
-            {/* stack pills */}
-            <div className="mt-3 flex flex-wrap gap-2">
-              {p.stack.map((s) => (
-                <span
-                  key={s}
-                  className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-200"
-                >
-                  {s}
-                </span>
-              ))}
-            </div>
-
-            {/* links */}
-            <div className="mt-4 flex flex-wrap gap-3">
-              {p.links.github && (
-                <a
-                  href={p.links.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white hover:bg-white/10"
-                >
-                  <Github className="h-4 w-4" /> GitHub
-                </a>
-              )}
-              {p.links.live && (
-                <a
-                  href={p.links.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white hover:bg-white/10"
-                >
-                  <Globe2 className="h-4 w-4" /> Live
-                </a>
-              )}
-              {p.links.doc && (
-                <a
-                  href={p.links.doc}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white hover:bg-white/10"
-                >
-                  <ChevronRight className="h-4 w-4" /> Write-up
-                </a>
-              )}
-            </div>
-          </article>
-        ))}
-      </section>
-
-      {/* CTA band */}
-      <section className="mt-8 rounded-2xl border border-white/10 bg-gradient-to-r from-indigo-600/20 via-fuchsia-500/10 to-cyan-500/10 p-6">
-        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-          <div>
-            <h3 className="text-xl font-semibold text-white">Want a deeper dive or a quick demo?</h3>
-            <p className="text-sm text-slate-300">
-              Happy to walk through architecture, trade-offs, and roadmap.
-            </p>
           </div>
-          <div className="flex gap-3">
+        </motion.section>
+
+        {/* Grid */}
+        <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
+          <AnimatePresence mode="popLayout">
+            {filtered.map((p, index) => (
+              <motion.article
+                layout
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                key={p.slug}
+                className="group relative flex flex-col justify-between overflow-hidden rounded-3xl glass-card p-8 transition-all hover:border-cyan-500/30"
+              >
+                {/* Glow effect on hover */}
+                <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-cyan-500/0 blur-[50px] transition-all duration-500 group-hover:bg-cyan-500/20" />
+
+                <div className="relative z-10">
+                  <div className="mb-6 flex flex-wrap gap-2">
+                    {p.tags.map((tag) => (
+                      <span key={tag} className="text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-400">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h2 className="text-2xl font-bold text-white group-hover:text-cyan-300 transition-colors">{p.title}</h2>
+                  <p className="mt-4 text-sm leading-relaxed text-slate-400">{p.summary}</p>
+                  
+                  {p.outcome && (
+                    <div className="mt-6 rounded-2xl bg-white/5 p-4 border border-white/5 backdrop-blur-sm relative overflow-hidden">
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-cyan-400 to-blue-500" />
+                      <p className="text-xs font-bold text-slate-300 uppercase tracking-widest mb-2 flex items-center gap-2">
+                        <Sparkles className="h-3.5 w-3.5 text-cyan-400" /> Measured Impact
+                      </p>
+                      <p className="text-sm text-slate-200">"{p.outcome}"</p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-8 relative z-10">
+                  <div className="mb-6 flex flex-wrap gap-2">
+                    {p.stack.map((s) => (
+                      <span
+                        key={s}
+                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-bold text-slate-300 uppercase tracking-wider backdrop-blur-md"
+                      >
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap gap-3">
+                    {p.links.github && (
+                      <a
+                        href={p.links.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-xs font-bold text-slate-950 transition hover:bg-slate-200 hover:scale-105"
+                      >
+                        <Github className="h-4 w-4" /> View Source
+                      </a>
+                    )}
+                    {p.links.live && (
+                      <a
+                        href={p.links.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-5 py-2.5 text-xs font-bold text-white transition hover:bg-white/10 hover:border-white/30 backdrop-blur-md"
+                      >
+                        <ExternalLink className="h-4 w-4" /> Live Demo
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </AnimatePresence>
+        </section>
+
+        {/* Footer CTA */}
+        <motion.section 
+          initial={{ opacity: 0 }} 
+          whileInView={{ opacity: 1 }} 
+          viewport={{ once: true }} 
+          className="mt-24 relative overflow-hidden rounded-[2.5rem] border border-cyan-500/20 bg-gradient-to-br from-cyan-900/20 to-blue-900/20 p-12 text-center backdrop-blur-xl"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-400/10 via-transparent to-transparent pointer-events-none" />
+          <h3 className="relative z-10 text-3xl font-extrabold text-white mb-4">Want to see more code?</h3>
+          <p className="relative z-10 text-slate-400 mb-8 max-lg mx-auto text-lg">
+            Check out my GitHub for open-source contributions, scripts, and deeper architectural explorations.
+          </p>
+          <div className="relative z-10 flex justify-center">
             <a
-              href="mailto:aakanksh.s10@gmail.com"
-              className="rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/30 transition hover:bg-indigo-400"
-            >
-              Email Me
-            </a>
-            <Link
-              href="/resume.pdf"
+              href="https://github.com/Aakanksh94310"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-xl border border-white/15 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10"
+              className="inline-flex items-center gap-3 rounded-full bg-cyan-500 px-8 py-4 text-sm font-bold text-slate-950 transition hover:bg-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.5)] hover:-translate-y-1"
             >
-              Resume
-            </Link>
+              <Github className="h-5 w-5" /> Explore GitHub
+            </a>
           </div>
-        </div>
-      </section>
+        </motion.section>
+      </div>
     </main>
   );
 }

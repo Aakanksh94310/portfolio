@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "next build",
     "start": "next start"
   },
   "dependencies": {
+    "@huggingface/transformers": "^3.8.1",
     "framer-motion": "^12.23.22",
     "lucide-react": "^0.544.0",
     "next": "15.5.4",

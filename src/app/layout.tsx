@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import BackButton from "@/components/BackButton";
+import Chatbot from "@/components/Chatbot";
 import "./globals.css";
 
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+
 export const metadata: Metadata = {
-  title: "Aakanksh | Ready to code",
-  description: "Portfolio – Academics, Projects, Blog",
-  icons: [{ rel: "icon", url: "favicon.ico" }],
+  title: "Aakanksh | Software Engineer & AI Researcher",
+  description: "Building the next generation of software with AI and scalable architectures.",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
 export default function RootLayout({
@@ -14,23 +18,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="bg-slate-950">
+    <html lang="en" className={`${inter.variable} bg-[#030712]`}>
       <body
-        className="
+        className={`
+          ${inter.className}
           min-h-screen
-          bg-slate-950
-          text-slate-100
+          bg-[#030712]
+          text-slate-50
           antialiased
-          pb-[calc(96px+env(safe-area-inset-bottom))]
-          md:pb-0
-        "
+          selection:bg-cyan-500/30
+        `}
       >
-        {/* Global Back button */}
-        <div className="mx-auto max-w-6xl px-4 pt-4 md:px-6">
+        {/* Global Navigation Wrapper for Inner Pages */}
+        <div className="relative z-[100] mx-auto max-w-7xl px-6 pt-6">
           <BackButton />
         </div>
 
         {children}
+
+        {/* Global Chatbot */}
+        <Chatbot />
       </body>
     </html>
   );
